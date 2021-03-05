@@ -16,6 +16,15 @@ public class SalaryCalculatorService {
 
     public Employee addEmployee(Employee employee){
 
+        return employeeRepository.save(new Employee(
+                employee.getType(),
+                employee.getSalary(),
+                employee.getWorkedHours(),
+                employee.getCoef(),
+                employee.getSales(),
+                employee.getHourlySalary(),
+                employee.getPercentage()
+        ));
 
     }
     public double getTotalSalary(Employee employee) {

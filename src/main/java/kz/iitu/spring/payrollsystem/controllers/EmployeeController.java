@@ -1,5 +1,6 @@
 package kz.iitu.spring.payrollsystem.controllers;
 
+import kz.iitu.spring.payrollsystem.model.Employee;
 import kz.iitu.spring.payrollsystem.model.EmployeeType;
 import kz.iitu.spring.payrollsystem.repository.EmployeeRepository;
 import kz.iitu.spring.payrollsystem.service.SalaryCalculatorService;
@@ -25,7 +26,6 @@ public class EmployeeController {
 
     @PostMapping("/add")
     public void createEmployee(
-            @RequestParam long id,
             @RequestParam EmployeeType type,
             @RequestParam double salary,
             @RequestParam int workedHours,
@@ -34,7 +34,23 @@ public class EmployeeController {
             @RequestParam double hourlySalary,
             @RequestParam int percentage
     ) {
-        service.
+        service.addEmployee(new Employee(
+                type, salary, workedHours, coef, sales, hourlySalary, percentage
+        ));
 
+    }
+
+    @GetMapping("/total-salary")
+    public double GetTotalSalary(@RequestParam long id) {
+        double totalSalary = service.getTotalSalary(employeeRepository.findById(id).get());
+        return totalSalary;
+    }
+
+    @GetMapping("/change-salary")
+    public Employee changeSalary(
+            @RequestParam long id,
+            @RequestParam double newSalary
+    ){
+        return service.changeBaseSalary(id,newSalary);
     }
 }

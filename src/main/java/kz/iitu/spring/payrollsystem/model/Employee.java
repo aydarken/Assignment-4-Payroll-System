@@ -16,6 +16,16 @@ public class Employee {
     private double hourlySalary;
     private int percentage;
 
+    public Employee(EmployeeType type, double salary, int workedHours, double coef, int sales, double hourlySalary, int percentage) {
+        this.type = type;
+        this.salary = salary;
+        this.workedHours = workedHours;
+        this.coef = coef;
+        this.sales = sales;
+        this.hourlySalary = hourlySalary;
+        this.percentage = percentage;
+    }
+
     public void setId(long id) {
         this.id = id;
     }
