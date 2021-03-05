@@ -1,5 +1,43 @@
 package kz.iitu.spring.payrollsystem.service;
 
-public class SalaryCalculatorService {
+import kz.iitu.spring.payrollsystem.model.Employee;
+import kz.iitu.spring.payrollsystem.repository.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
+public class SalaryCalculatorService {
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    public Employee changeBaseSalary(long id, double newSalary) {
+        Employee employee = employeeRepository.findById(id).get();
+        employee.setSalary(newSalary);
+        return employee;
+    }
+
+    public Employee addEmployee(Employee employee){
+
+
+    }
+    public double getTotalSalary(Employee employee) {
+        double totalSalary = 0;
+        switch (employee.getType()) {
+            case SALARIED:
+                totalSalary = employee.getSalary();
+                break;
+            case HOURLY:
+                if (employee.getWorkedHours() > 40) {
+                    totalSalary = ((employee.getHourlySalary()) * 40) +
+                            (employee.getCoef() * employee.getHourlySalary() * (employee.getWorkedHours()) - 40);
+                } else
+                    totalSalary = employee.getWorkedHours() * employee.getHourlySalary();
+                break;
+            case COMMISSION:
+                totalSalary = (double) (employee.getPercentage() * employee.getSales()) / 100;
+                break;
+            case SALARIED_COMMISSION:
+                totalSalary = employee.getSalary() +
+                        ((double) (employee.getPercentage() * employee.getSales()) / 100);
+        }
+        return totalSalary;
+    }
 }
