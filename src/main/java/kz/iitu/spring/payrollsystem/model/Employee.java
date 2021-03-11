@@ -6,15 +6,17 @@ import javax.persistence.*;
 @Table(name = "employees")
 public class Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private EmployeeType type;
     private double salary;
     private int workedHours;
     private double coef;
     private int sales;
     private double hourlySalary;
     private int percentage;
+
+    @Enumerated(EnumType.STRING)
+    private EmployeeType type;
 
     public Employee(EmployeeType type, double salary, int workedHours, double coef, int sales, double hourlySalary, int percentage) {
         this.type = type;
@@ -24,6 +26,10 @@ public class Employee {
         this.sales = sales;
         this.hourlySalary = hourlySalary;
         this.percentage = percentage;
+    }
+
+    public Employee() {
+
     }
 
     public void setId(long id) {

@@ -1,16 +1,25 @@
 package kz.iitu.spring.payrollsystem.service;
 
+import kz.iitu.spring.payrollsystem.event.SalaryChangeEvent;
 import kz.iitu.spring.payrollsystem.model.Employee;
 import kz.iitu.spring.payrollsystem.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SalaryCalculatorService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    private ApplicationEventPublisher eventPublisher;
+
     public Employee changeBaseSalary(long id, double newSalary) {
         Employee employee = employeeRepository.findById(id).get();
         employee.setSalary(newSalary);
+
+        this.eventPublisher.publishEvent(new SalaryChangeEvent(this, employee));
+
         return employee;
     }
 

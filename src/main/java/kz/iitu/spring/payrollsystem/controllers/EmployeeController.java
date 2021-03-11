@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
     private SalaryCalculatorService service;
 
 
@@ -26,6 +28,7 @@ public class EmployeeController {
 
     @PostMapping("/add")
     public void createEmployee(
+            @RequestParam Long id,
             @RequestParam EmployeeType type,
             @RequestParam double salary,
             @RequestParam int workedHours,
@@ -51,6 +54,6 @@ public class EmployeeController {
             @RequestParam long id,
             @RequestParam double newSalary
     ){
-        return service.changeBaseSalary(id,newSalary);
+        return service.changeBaseSalary(id, newSalary);
     }
 }
